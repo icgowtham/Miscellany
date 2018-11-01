@@ -1,0 +1,35 @@
+DELIMITER $$
+DROP FUNCTION IF EXISTS `initcap`$$
+
+CREATE FUNCTION `initcap`(x varchar(255)) RETURNS varchar(255) CHARSET utf8
+DETERMINISTIC 
+BEGIN
+SET @out_str = '';
+SET @left_str = '';
+SET @right_str = '';
+
+SET @pos=LOCATE (' ', x);
+
+SELECT x INTO @right_str;
+
+WHILE (@pos > 0) 
+DO
+        SELECT SUBSTRING(@right_str, 1, @pos - 1) 
+    INTO @left_str;
+        
+    SELECT SUBSTRING(@right_str, @pos + 1) 
+    INTO @right_str;
+        
+    SELECT CONCAT(@out_str, UPPER(SUBSTRING(@left_str, 1, 1)), LOWER(SUBSTRING(@left_str, 2)), ' ') 
+    INTO @out_str;
+        
+    SET @pos = LOCATE(' ', @right_str);
+END WHILE;
+
+SELECT CONCAT(@out_str, UPPER(SUBSTRING(@right_str, 1, 1)), LOWER(SUBSTRING(@right_str, 2))) 
+INTO @out_str;
+
+RETURN TRIM(@out_str);
+END$$
+
+DELIMITER ;

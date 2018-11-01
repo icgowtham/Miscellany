@@ -1,0 +1,3 @@
+SELECT *
+FROM bugs
+WHERE input_date BETWEEN open_date and close_date;

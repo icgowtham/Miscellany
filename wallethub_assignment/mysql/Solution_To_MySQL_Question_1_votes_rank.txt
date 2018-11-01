@@ -1,0 +1,7 @@
+SET @votes = '';
+SET @row_num = 0;
+
+SELECT  name, votes, 
+    @row_num := if(@votes = votes, @row_num, @row_num + 1) as vote_rank, 
+    @votes := votes as dummy 
+FROM votes ORDER BY votes DESC, name ASC;

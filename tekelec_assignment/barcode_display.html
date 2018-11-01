@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			#spacer{
+			  background-color: white;
+			  width: 3px;
+			  height: 15px;
+			  display: inline-block;
+			}
+
+			#bar-code-M{
+			  background-color: black;
+			  width: 13px;
+			  height: 15px;
+			  border: 1px inset;
+			  display: inline-block;
+			}
+
+			#bar-code-D{
+			  background-color: black;
+			  width: 11px;
+			  height: 15px;
+			  border: 1px inset;
+			  display: inline-block;
+			}
+
+			#bar-code-C{
+			  background-color: black;
+			  width: 9px;
+			  height: 15px;
+			  border: 1px inset;
+			  display: inline-block;
+			}
+
+			#bar-code-L{
+			  background-color: black;
+			  width: 7px;
+			  height: 15px;
+			  border: 1px inset;
+			  display: inline-block;
+			}
+
+			#bar-code-X{
+			  background-color: black;
+			  width: 5px;
+			  height: 15px;
+			  border: 1px inset;
+			  display: inline-block;
+			}
+
+			#bar-code-V{
+			  background-color: black;
+			  width: 3px;
+			  height: 15px;
+			  border: 1px inset;
+			  display: inline-block;
+			}
+
+			#bar-code-I{
+			  background-color: black;
+			  width: 1px;
+			  height: 15px;
+			  border: 1px inset;
+			  display: inline-block;
+			}
+		</style>
+
+		<script type="text/javascript">
+			var numberToRomanNumeralsMap = {"0":"", "00":"", "000":"",
+					   "1":"I", "2":"II", "3":"III", "4":"IV", "5":"V", "6":"VI", "7":"VII", "8":"VIII", "9":"IX",
+					   "10":"X", "20":"XX", "30":"XXX", "40":"XL", "50":"L", "60":"LX", "70":"LXX", "80":"LXXX", "90":"XC",
+					   "100":"C", "200":"CC", "300":"CCC", "400":"CD", "500":"D", "600":"DC", "700":"DCC", "800":"DCCC", "900":"CM",
+					   "1000":"M", "2000":"MM", "3000":"MMM" }
+
+			function get(k) {
+			  return numberToRomanNumeralsMap[k];
+			}
+
+			var romanNumeralsArray = [];
+
+			function convertToRoman() {
+				var inputStr = document.getElementById('input').value;
+				document.getElementById("inputVal").innerHTML = "Input: " + inputStr;
+				var integerVal = ""
+				var idx = 0
+
+				for (var i = 0; i < inputStr.length; i++) {
+					integerVal = inputStr.charAt(i)
+					for (var j = i; j < inputStr.length - 1; j++) {
+						integerVal = integerVal + "0"
+					}
+
+					romanNumeralsArray[idx] = integerVal
+					idx++
+				}
+
+				displayBarCode();
+
+				while(romanNumeralsArray.length) {
+					romanNumeralsArray.pop();
+				}
+			}
+
+			function displayBarCode() {
+				var output = ""
+				var bcHtml = ""
+				for (var k = 0; k < romanNumeralsArray.length; k++) {
+					var romanNumeral = get(romanNumeralsArray[k])
+					output += romanNumeral
+
+					for (var m = 0; m < romanNumeral.length; m++) {
+						switch (romanNumeral.charAt(m)) {
+							case "M" :
+								bcHtml += "<div id=\"bar-code-M\"></div>" + "<div id=\"spacer\"></div>";
+								break;
+
+							case "D":
+								bcHtml += "<div id=\"bar-code-D\"></div>" + "<div id=\"spacer\"></div>";
+								break;
+
+							case "C":
+								bcHtml += "<div id=\"bar-code-C\"></div>" + "<div id=\"spacer\"></div>";
+								break;
+
+							case "L":
+								bcHtml += "<div id=\"bar-code-L\"></div>" + "<div id=\"spacer\"></div>";
+								break;
+
+							case "X":
+								bcHtml += "<div id=\"bar-code-X\"></div>" + "<div id=\"spacer\"></div>";
+								break;
+
+							case "V":
+								bcHtml += "<div id=\"bar-code-V\"></div>" + "<div id=\"spacer\"></div>";
+								break;
+
+							case "I":
+								bcHtml += "<div id=\"bar-code-I\"></div>" + "<div id=\"spacer\"></div>";
+								break;
+
+							default:
+								break;
+						}
+					}
+				}
+
+				bcHtml += "</p>"
+				document.getElementById("output").innerHTML = "";
+				document.getElementById("barcode").innerHTML =  "";
+				document.getElementById("output").innerHTML = "Output: " + output;
+				document.getElementById("barcode").innerHTML =  "<p><p>Barcode:</p>" + bcHtml;
+			}
+
+			function checkInput(obj) {
+				var invalidChars = /[^0-9]/gi
+				if (invalidChars.test(obj.value)) {
+					obj.value = obj.value.replace(invalidChars, "");
+				} else {
+					document.getElementById('input').style.color = '#000';
+				}
+
+				if (input.value < 0)
+					input.value = 0;
+				if (input.value > 3999)
+					input.value = 3999;
+			}
+
+			function hideInput(obj) {
+				document.getElementById('input').style.color = '#FFF';
+			}
+	</script>
+	</head>
+
+	<body>
+		<div align="center"><h3>Roman Numeral Barcode Display </h3></div>
+		<p id="first">Enter an integer between 0 to 3999 in the textbox below</p>
+		<div>
+			<input id="input" class="input" maxlength="4" onKeydown="hideInput(this)" onKeyup="checkInput(this)" type="text" autocomplete="off" />
+			<input type="button" value="Display" onclick="convertToRoman()"/>
+		</div>
+
+		<p id="inputVal"></p>
+		<p id="output"></p>
+		<p id="barcode"></p>
+	</body>
+</html>
