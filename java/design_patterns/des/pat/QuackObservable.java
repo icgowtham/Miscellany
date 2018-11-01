@@ -1,0 +1,6 @@
+package des.pat;
+
+public interface QuackObservable {
+	public void registerObserver (Observer observer);
+	public void notifyObservers ();
+}
