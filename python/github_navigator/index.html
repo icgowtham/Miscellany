@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Github Navigator</title>
+   </head>
+   <body>
+      <form action="" method="get">
+         {{ form.csrf }}
+         <div class="input text">
+            <table>
+               <tr>
+                  <td> {{ form.search_term.label }} </td>
+                  <td> {{ form.search_term }} </td>
+               </tr>
+            </table>
+         </div>
+         <div class="input submit">
+            <table>
+               <tr>
+                  <td> <input type="submit" value="Submit"> </td>
+               </tr>
+            </table>
+         </div>
+      </form>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <ul>
+         {% for message in messages %}
+         <li>{{ message[1] }}</li>
+         {% endfor %}
+      </ul>
+      {% endif %}
+      {% endwith %}
+   </body>
+</html>
